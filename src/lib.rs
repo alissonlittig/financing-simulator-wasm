@@ -128,11 +128,11 @@ fn short(v: f64) -> String {
     let s = if v >= 1e6 {
         format!("{:.1}M", v / 1e6)
     } else if v >= 1e3 {
-        format!("{:.0}k", v / 1e3)
+        format!("{:.1}k", v / 1e3)
     } else {
         format!("{:.0}", v)
     };
-    s.replace('.', ",")
+    s.replace(".0", "").replace('.', ",")
 }
 
 pub fn csv(calc: &Calc) -> String {
@@ -159,7 +159,7 @@ fn nice_ceil(max: f64) -> f64 {
     }
     let mag = 10f64.powf(max.log10().floor());
     let norm = max / mag;
-    let step = [1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0]
+    let step = [2.0, 4.0, 6.0, 8.0, 10.0]
         .into_iter()
         .find(|s| *s >= norm - 1e-9)
         .unwrap_or(10.0);
@@ -270,6 +270,17 @@ mod tests {
         assert_eq!(num(0.5), "0,50");
         assert_eq!(num(999.0), "999,00");
         assert_eq!(short(2_500_000.0), "2,5M");
+        assert_eq!(short(1500.0), "1,5k");
+        assert_eq!(short(3000.0), "3k");
+    }
+
+    #[test]
+    fn y_axis_ticks_are_round() {
+        // max 4453 -> top 6000, ticks 0/1,5k/3k/4,5k/6k (equal steps, exact labels)
+        let top = nice_ceil(4453.17);
+        assert_eq!(top, 6000.0);
+        let l: Vec<String> = (0..=4).map(|k| short(top * k as f64 / 4.0)).collect();
+        assert_eq!(l, ["0", "1,5k", "3k", "4,5k", "6k"]);
     }
 
     #[test]
