@@ -69,7 +69,7 @@ figure { margin: 0; }
 figcaption { font: 600 1.05rem var(--serif); margin-bottom: 8px; }
 .chart { width: 100%; height: auto; display: block; }
 .chart .grid { stroke: var(--line); stroke-width: 1; }
-.chart .axis { fill: var(--muted); font-size: 11px; }
+.chart .axis { fill: var(--muted); font-size: 14px; }
 .chart .line { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
 .chart .s-sac { stroke: var(--sac); }
 .chart .s-price { stroke: var(--price); stroke-dasharray: none; }
@@ -99,6 +99,7 @@ tbody tr:nth-child(even) { background: color-mix(in srgb, var(--bg) 55%, transpa
   .tag { display: none; }
   .sys dl { gap: 12px 8px; }
   th, td { padding: 8px 5px; font-size: .78rem; }
+  .chart .axis { font-size: 19px; }
   .pill { margin-left: 0; margin-top: 6px; display: table; }
 }
 @media (prefers-reduced-motion: no-preference) { .btn, .chips button, .seg button { transition: filter .15s, border-color .15s; } }
